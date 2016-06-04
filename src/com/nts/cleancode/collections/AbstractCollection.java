@@ -2,18 +2,20 @@ package com.nts.cleancode.collections;
 
 public abstract class AbstractCollection {
 	
-	public abstract  boolean isEmpty();
+	protected static int INITIAL_CAPACITY = 10;
+	protected Object[] elements = new Object[INITIAL_CAPACITY];
+	protected int size = 0;
+	protected boolean readOnly;
+
 	public abstract void add(Object element);
 	public abstract boolean remove(Object element);
-	public abstract boolean contains(Object element);
-	public abstract int size();
 	
 	public void addAll(AbstractCollection c) {
 		if (c instanceof Set) {
-			Set s = (Set)c;
+			AbstractCollection s = (AbstractCollection)c;
 			for (int i=0; i < s.size(); i++) {
-				if (!contains(s.getElementAt(i))) {
-					add(s.getElementAt(i));
+				if (!contains(s.get(i))) {
+					add(s.get(i));
 				}
 			}
 			
@@ -32,5 +34,26 @@ public abstract class AbstractCollection {
 	}
 	
 	public void add(Object key, Object value) {
+	}
+	public boolean isEmpty() {
+		return size == 0;
+	}
+	public boolean contains(Object element) {
+		for (int i = 0; i < size; i++)
+			if (elements[i].equals(element))
+				return true;
+		return false;
+	}
+	public int size() {
+		return size;
+	}
+	public int capacity() {
+		return elements.length;
+	}
+	public void setReadOnly(boolean b) {
+		readOnly = b;
+	}
+	public Object get(int index) {
+		return elements[index];
 	}
 }
