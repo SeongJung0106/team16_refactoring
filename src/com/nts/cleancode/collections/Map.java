@@ -83,4 +83,9 @@ public class Map extends AbstractCollection {
 	public void setReadOnly(boolean b) {
 		readOnly = b;
 	}
+	
+	public void addAll(Map m) {
+		for (int i=0; i<m.size(); i++) 
+			add(m.keys[i], m.values[i]);
+	}
 }
