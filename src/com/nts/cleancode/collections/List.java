@@ -12,9 +12,10 @@ public class List extends AbstractCollection {
 	public void add(Object element) {
 		if (readOnly)
 			return;
-		if (shouldGrow()) {
+		
+		if (shouldGrow()) 
 			grow();
-		}
+		
 		addElement(element);
 	}
 
