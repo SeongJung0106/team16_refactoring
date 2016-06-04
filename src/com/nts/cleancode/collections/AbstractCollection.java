@@ -6,8 +6,6 @@ public abstract class AbstractCollection {
 	protected Object[] elements = new Object[INITIAL_CAPACITY];
 	protected int size = 0;
 	protected boolean readOnly;
-
-	public abstract boolean remove(Object element);
 	
 	public void addAll(AbstractCollection collection) {
 		for (int i=0; i < collection.size(); i++) {
@@ -60,5 +58,30 @@ public abstract class AbstractCollection {
 	}
 	private boolean shouldGrow() {
 		return size + 1 > elements.length;
+	}
+
+	public boolean remove(Object element) {
+		if (readOnly)
+			return false;
+		
+		for (int i = 0; i < size; i++)
+			if (elements[i].equals(element)) {
+				removeElementAt(i);
+				return true;
+			}
+		
+		return false;
+	}
+
+	protected void removeElementAt(int i) {
+		elements[i] = null;
+		Object[] newElements = new Object[size - 1];
+		int k = 0;
+		for (int j = 0; j < size; j++) {
+			if (elements[j] != null)
+				newElements[k++] = elements[j];
+		}
+		size--;
+		elements = newElements;
 	}
 }

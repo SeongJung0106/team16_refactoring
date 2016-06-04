@@ -11,8 +11,8 @@ import com.nts.cleancode.collections.Set;
 
 public class SetTest {
 	private AbstractCollection empty;
-	private Set oneElement;
-	private Set manyElement;
+	private AbstractCollection oneElement;
+	private AbstractCollection manyElement;
 
 	@Before
 	public void setUp() {
