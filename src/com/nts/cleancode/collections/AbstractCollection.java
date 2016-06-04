@@ -7,7 +7,6 @@ public abstract class AbstractCollection {
 	protected int size = 0;
 	protected boolean readOnly;
 
-	public abstract void add(Object element);
 	public abstract boolean remove(Object element);
 	
 	public void addAll(AbstractCollection c) {
@@ -20,7 +19,7 @@ public abstract class AbstractCollection {
 			}
 			
 		} else if (c instanceof List) {
-			List l = (List)c;
+			AbstractCollection l = (AbstractCollection)c;
 			for (int i=0; i < l.size(); i++) {
 				if (!contains(l.get(i))) {
 					add(l.get(i));
@@ -55,5 +54,27 @@ public abstract class AbstractCollection {
 	}
 	public Object get(int index) {
 		return elements[index];
+	}
+	public void add(Object element) {
+		if (readOnly)
+			return;
+		
+		if (shouldGrow()) 
+			grow();
+		
+		addElement(element);
+	}
+	private void addElement(Object element) {
+		elements[size++] = element;
+	}
+	private void grow() {
+		Object[] newElements =
+			new Object[elements.length + 10];
+		for (int i = 0; i < size; i++)
+			newElements[i] = elements[i];
+		elements = newElements;
+	}
+	private boolean shouldGrow() {
+		return size + 1 > elements.length;
 	}
 }
